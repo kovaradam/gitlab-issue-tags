@@ -1,11 +1,18 @@
 import fs from 'fs';
 import { workspace } from 'vscode';
+import { createMessage } from './utils';
+
+export type RepoConfig = {
+  url: string;
+  accountName: string;
+  projectName: string;
+};
 
 function loadRepoConfig(): Buffer {
   const directoryPath = workspace.workspaceFolders?.[0]?.uri.path;
 
   if (!directoryPath) {
-    throw Error('Could not access workspace folder');
+    throw Error(createMessage('Could not access workspace folder'));
   }
 
   const gitConfigPath = `${directoryPath}/.git/config`;
@@ -13,21 +20,17 @@ function loadRepoConfig(): Buffer {
   try {
     return fs.readFileSync(gitConfigPath);
   } catch (error) {
-    throw Error(String(error));
+    throw Error(createMessage('Could not find git config file'));
   }
 }
 
-function parseRepoConfig(configFile: Buffer): {
-  url: string;
-  accountName: string;
-  projectName: string;
-} {
+function parseRepoConfig(configFile: Buffer): RepoConfig {
   const configString = configFile.toString();
   const [urlAttributeSelector, appendix] = ['url = ', '.git'];
   const urlIdx = configString.indexOf(urlAttributeSelector);
 
   if (urlIdx === -1) {
-    throw Error;
+    throw Error(createMessage('Could not find url info in git config'));
   }
 
   const gitUrl = configString.slice(
@@ -51,8 +54,8 @@ function parseRepoConfig(configFile: Buffer): {
   return { url: httpUrl, accountName, projectName };
 }
 
-export const test = (): void => {
+export function getRepoConfig(): ReturnType<typeof parseRepoConfig> {
   const configFile = loadRepoConfig();
   const config = parseRepoConfig(configFile);
-  console.log(config);
-};
+  return config;
+}
