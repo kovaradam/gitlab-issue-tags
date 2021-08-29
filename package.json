@@ -2,7 +2,7 @@
   "name": "gitlab-issues",
   "version": "0.0.1",
   "description": "VS Code extension",
-  "main": "dist/extension.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
@@ -32,13 +32,13 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.helloWorld"
+    "onCommand:extension.gitlab-issues"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "extension.helloWorld",
-        "title": "Hello World"
+        "command": "extension.gitlab-issues",
+        "title": "Gitlab Issues"
       }
     ]
   },
