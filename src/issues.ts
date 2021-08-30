@@ -1,6 +1,6 @@
 import { Store } from './store';
 import { fetch } from './utils';
-import * as V from './view';
+import { View } from './view';
 
 type ProjectData = { id: string };
 export type IssueData = { iid: string; title: string };
@@ -15,17 +15,17 @@ export async function getIssues(): Promise<IssueData[] | null> {
   try {
     projects = (await fetch<ProjectData[]>(projectSearchUrl)).data;
   } catch (error) {
-    V.showMessage(projectsErrorMessage, 'error');
+    View.showMessage.error(projectsErrorMessage);
     return errorValue;
   }
 
   const projectId = projects?.[0]?.id;
   if (projectId === undefined) {
-    V.showMessage(projectsErrorMessage, 'error');
+    View.showMessage.error(projectsErrorMessage);
     return errorValue;
   }
 
-  const issuesSearchUrl = `projects/${projectId}/issues`;
+  const issuesSearchUrl = `projects/${projectId}/issues?simple=true`;
   const issues = (await fetch<IssueData[]>(issuesSearchUrl)).data;
 
   return issues;

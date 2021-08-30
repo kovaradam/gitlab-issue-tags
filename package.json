@@ -32,13 +32,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.gitlab-issues"
+    "onCommand:extension.gitlab-issues",
+    "onCommand:extension.gitlab-issues-token"
   ],
   "contributes": {
     "commands": [
       {
         "command": "extension.gitlab-issues",
         "title": "Gitlab Issues"
+      },
+      {
+        "command": "extension.gitlab-issues-token",
+        "title": "Gitlab Issues: set GitLab token"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.gitlab-issues",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g"
       }
     ]
   },

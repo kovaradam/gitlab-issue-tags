@@ -6,13 +6,13 @@ export function createAuthorizationHeader(token: string): string {
 }
 
 export async function validateToken(token: string): Promise<boolean> {
-  const groupUrl = `groups/${Store.config.accountName}`;
+  const testUrl = `groups/${Store.config.accountName}?simple=true`;
   const headers = {
     authorization: createAuthorizationHeader(token),
   };
 
   try {
-    await fetch(groupUrl, { headers });
+    await fetch(testUrl, { headers });
     return true;
   } catch (_) {
     return false;

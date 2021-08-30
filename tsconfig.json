@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "noEmitOnError": true,
+    "sourceMap": true,
     "strict": true /* Enable all strict type-checking options. */,
     "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
     "noUnusedParameters": true /* Report errors on unused parameters. */,

@@ -1,11 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { window } from 'vscode';
 import { createAuthorizationHeader } from './auth';
 import { Store } from './store';
-
-export function createMessage(content: string): string {
-  return `Gitlab Issues - ${content}`;
-}
 
 export function fetch<T = unknown>(
   url: string,
@@ -16,7 +11,7 @@ export function fetch<T = unknown>(
 
   const response = axios.get(httpUrl, {
     headers: {
-      authorization: createAuthorizationHeader(Store.getGitlabToken()),
+      authorization: createAuthorizationHeader(Store.getGitlabToken() ?? ''),
     },
     ...config,
   });

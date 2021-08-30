@@ -1,72 +1,87 @@
-import { window } from 'vscode';
+import { QuickPickItem, window } from 'vscode';
 import { validateToken } from './auth';
-import { createMessage } from './utils';
 import clipboardy from 'clipboardy';
 import { getIssues, IssueData } from './issues';
-import { title } from 'process';
 
-export async function handleAuth(): Promise<string | null> {
-  return window
-    .showInputBox({
-      prompt: 'Please insert your GitLab token',
-      placeHolder: 'GitLab token',
-    })
-    .then(async (responseToken) => {
-      if (responseToken === undefined) {
-        showMessage('Validation aborted');
-        return null;
-      }
-      showMessage('Validating token');
-      const isTokenValid = await validateToken(responseToken);
-      if (!isTokenValid) {
-        showMessage('Provided token is invalid', 'error');
-        return null;
-      }
-      showMessage('Your token is valid');
-      return responseToken;
-    });
-}
+export const View = {
+  showMessage: {
+    info: (message: string): void => showMessage(message, 'info'),
+    error: (message: string): void => showMessage(message, 'error'),
+    warn: (message: string): void => showMessage(message, 'warn'),
+  },
+  showAuthDialog: async (): Promise<string | null> => {
+    return window
+      .showInputBox({
+        prompt: 'Please insert your GitLab token',
+        placeHolder: 'GitLab token',
+      })
+      .then(async (responseToken) => {
+        if (responseToken === undefined) {
+          showMessage.error('Validation aborted');
+          return null;
+        }
+        showMessage.info('Validating token');
+        const isTokenValid = await validateToken(responseToken);
+        if (!isTokenValid) {
+          showMessage.error('Provided token is invalid');
+          return null;
+        }
+        showMessage.info('Your token is valid');
+        return responseToken;
+      });
+  },
 
-export async function showIssues(): Promise<void> {
-  const issues = (await getIssues()) ?? [];
-  if (issues.length === 0) {
-    showMessage('Could not find any issues', 'warning');
-  }
+  showIssues: async (): Promise<void> => {
+    const pick = window.createQuickPick<QuickPickItem & IssueData>();
+    pick.title = 'Select Issue';
+    pick.busy = true;
+    pick.matchOnDescription = true;
+    pick.show();
 
-  function formatIssue({ iid, title }: IssueData): string {
-    return `${iid}: ${title}`;
-  }
-  function getIssueTag(title: string): string {
-    const issueNumber = title.slice(0, title.indexOf(':'));
-    return `#${issueNumber}`;
-  }
+    const issues = await getIssues();
+    pick.busy = false;
 
-  window
-    .showQuickPick(issues.map(formatIssue), { title: 'Select Issue' })
-    .then(async (issueTitle) => {
-      if (issueTitle === undefined) {
+    if (issues === null) {
+      pick.dispose();
+      return;
+    }
+
+    if (issues.length === 0) {
+      showMessage.warn('Could not find any issues');
+    }
+
+    pick.items = issues.map((issue) => ({
+      label: `${issue.iid}: ${issue.title}`,
+      ...issue,
+    }));
+
+    pick.onDidChangeSelection(([issue]) => {
+      if (issue === undefined) {
+        pick.dispose();
         return;
       }
-      const issueTag = getIssueTag(issueTitle);
-      await clipboardy.write(issueTag);
-      showMessage(`Copied '${issueTag}' to clipboard`);
+      const issueTag = `#${issue.iid}`;
+      clipboardy.writeSync(issueTag);
+      showMessage.info(`Copied '${issueTag}' to clipboard`);
+      pick.dispose();
     });
-}
+  },
+};
 
-export function showMessage(
-  content: string,
-  type: 'info' | 'error' | 'warning' = 'info',
-): void {
-  const message = createMessage(content);
+function showMessage(content: string, type: 'info' | 'error' | 'warn' = 'info'): void {
+  const message = `Gitlab Issues - ${content}`;
 
-  ((): typeof window.showErrorMessage => {
-    switch (type) {
-      case 'error':
-        return window.showErrorMessage;
-      case 'warning':
-        return window.showWarningMessage;
-      default:
-        return window.showInformationMessage;
-    }
-  })()(message);
+  switch (type) {
+    case 'error':
+      window.showErrorMessage(message);
+      return;
+    case 'warn':
+      window.showWarningMessage(message);
+      return;
+    default:
+      window.showInformationMessage(message);
+  }
 }
+showMessage.info = (message: string): void => showMessage(message, 'info');
+showMessage.error = (message: string): void => showMessage(message, 'error');
+showMessage.warn = (message: string): void => showMessage(message, 'warn');
