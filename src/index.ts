@@ -19,15 +19,14 @@ export function activate(context: ExtensionContext): void {
       return;
     }
 
-    const hasValidToken = Store.getGitlabToken() !== null;
+    const hasValidToken = (await Store.getGitlabToken()) !== null;
 
     if (!hasValidToken) {
       View.showAuthDialog().then((token) => {
         if (token === null) {
           return;
         }
-        Store.setGitlabToken(token);
-        View.showIssues();
+        Store.setGitlabToken(token).then(View.showIssues);
       });
       return;
     }

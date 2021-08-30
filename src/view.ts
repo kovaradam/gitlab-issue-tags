@@ -69,7 +69,7 @@ export const View = {
 };
 
 function showMessage(content: string, type: 'info' | 'error' | 'warn' = 'info'): void {
-  const message = `Gitlab Issues - ${content}`;
+  const message = `[Gitlab Issues] ${content}`;
 
   switch (type) {
     case 'error':

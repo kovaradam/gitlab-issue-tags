@@ -5,12 +5,15 @@ export class Store {
   static config: RepoConfig;
   private static context: ExtensionContext;
 
-  static getGitlabToken(): string | null {
-    return Store.context.globalState.get(Store.getTokenStoreKey()) ?? null;
+  static async getGitlabToken(): Promise<string | null> {
+    const key = Store.getTokenStoreKey();
+    const token = await Store.context.secrets.get(key);
+    return token ?? null;
   }
 
-  static setGitlabToken(newToken: string): void {
-    Store.context.globalState.update(Store.getTokenStoreKey(), newToken);
+  static async setGitlabToken(newToken: string): Promise<void> {
+    const key = Store.getTokenStoreKey();
+    return await Store.context.secrets.store(key, newToken);
   }
 
   static setContext(newContext: typeof Store.context): void {
@@ -18,6 +21,7 @@ export class Store {
   }
 
   static getTokenStoreKey(): string {
-    return `token-${Store.config.url}`;
+    const tokenServiceKey = 'gitlab-issues-extension';
+    return `${tokenServiceKey}-${Store.config.url}`;
   }
 }
