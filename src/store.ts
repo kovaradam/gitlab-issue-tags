@@ -21,7 +21,7 @@ export class Store {
   }
 
   static getTokenStoreKey(): string {
-    const tokenServiceKey = 'gitlab-issues-extension';
+    const tokenServiceKey = 'gitlab-issue-tags-extension';
     return `${tokenServiceKey}-${Store.config.url}`;
   }
 }

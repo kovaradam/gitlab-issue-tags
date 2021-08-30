@@ -1,3 +1,3 @@
-# gitlab-issues
+# gitlab-issue-tags
 
 VS Code extension

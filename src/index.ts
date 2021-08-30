@@ -44,8 +44,8 @@ export function activate(context: ExtensionContext): void {
   }
 
   const disposables = [
-    commands.registerCommand('extension.gitlab-issues', run),
-    commands.registerCommand('extension.gitlab-issues-token', setGitlabToken),
+    commands.registerCommand('extension.gitlab-issue-tags', run),
+    commands.registerCommand('extension.gitlab-issue-tags-token', setGitlabToken),
   ];
 
   context.subscriptions.push(...disposables);

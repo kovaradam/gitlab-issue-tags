@@ -1,5 +1,5 @@
 {
-  "name": "gitlab-issues",
+  "name": "gitlab-issue-tags",
   "version": "0.0.1",
   "description": "VS Code extension",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kovaradam/gitlab-issues.git"
+    "url": "git+https://github.com/kovaradam/gitlab-issue-tags.git"
   },
   "keywords": [
     "vs",
@@ -20,35 +20,36 @@
     "gitlab"
   ],
   "author": "kovaradam1@gmail.com",
+  "publisher": "kovaradam",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kovaradam/gitlab-issues/issues"
   },
   "homepage": "https://github.com/kovaradam/gitlab-issues#readme",
   "engines": {
-    "vscode": "^1.34.0"
+    "vscode": "^1.59.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.gitlab-issues",
-    "onCommand:extension.gitlab-issues-token"
+    "onCommand:extension.gitlab-issue-tags",
+    "onCommand:extension.gitlab-issue-tags-token"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "extension.gitlab-issues",
-        "title": "Gitlab Issues"
+        "command": "extension.gitlab-issue-tags",
+        "title": "Gitlab Issue Tags"
       },
       {
-        "command": "extension.gitlab-issues-token",
-        "title": "Gitlab Issues: set GitLab token"
+        "command": "extension.gitlab-issue-tags-token",
+        "title": "Gitlab Issue Tags: set GitLab token"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.gitlab-issues",
+        "command": "extension.gitlab-issue-tags",
         "key": "ctrl+alt+g",
         "mac": "cmd+alt+g"
       }
