@@ -23,9 +23,9 @@
   "publisher": "kovaradam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kovaradam/gitlab-issues/issues"
+    "url": "https://github.com/kovaradam/gitlab-issue-tags/issues"
   },
-  "homepage": "https://github.com/kovaradam/gitlab-issues#readme",
+  "homepage": "https://github.com/kovaradam/gitlab-issue-tags#readme",
   "engines": {
     "vscode": "^1.59.0"
   },
