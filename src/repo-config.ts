@@ -14,7 +14,7 @@ function loadRepoConfig(): Buffer {
     throw Error('Could not access workspace folder');
   }
 
-  if (directoryPath[0] === '/') {
+  if (directoryPath[0] === '/' && process.platform === 'win32') {
     directoryPath = directoryPath.slice(1);
   }
 

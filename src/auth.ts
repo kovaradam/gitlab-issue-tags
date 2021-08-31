@@ -1,4 +1,3 @@
-import { Store } from './store';
 import { fetch } from './utils';
 
 export function createAuthorizationHeader(token: string): string {
