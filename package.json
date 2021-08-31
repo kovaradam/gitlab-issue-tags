@@ -1,7 +1,8 @@
 {
   "name": "gitlab-issue-tags",
+  "displayName": "Gitlab Issue Tags",
   "version": "0.0.1",
-  "description": "VS Code extension",
+  "description": "Write better commit messages in GitLab",
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
