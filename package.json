@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Write better commit messages in GitLab",
   "main": "dist/index.js",
-  "icon": "icon.png",
+  "icon": "assets/logo.png",
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
