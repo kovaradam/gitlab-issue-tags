@@ -6,7 +6,7 @@ export function createAuthorizationHeader(token: string): string {
 }
 
 export async function validateToken(token: string): Promise<boolean> {
-  const testUrl = `groups/${Store.config.accountName}?simple=true`;
+  const testUrl = `version?simple=true`;
   const headers = {
     authorization: createAuthorizationHeader(token),
   };

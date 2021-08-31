@@ -8,10 +8,14 @@ export type RepoConfig = {
 };
 
 function loadRepoConfig(): Buffer {
-  const directoryPath = workspace.workspaceFolders?.[0]?.uri.path;
+  let directoryPath = workspace.workspaceFolders?.[0]?.uri.path;
 
   if (!directoryPath) {
     throw Error('Could not access workspace folder');
+  }
+
+  if (directoryPath[0] === '/') {
+    directoryPath = directoryPath.slice(1);
   }
 
   const gitConfigPath = `${directoryPath}/.git/config`;
